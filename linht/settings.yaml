@@ -1,0 +1,88 @@
+#LinHT sample config file
+#Contains settings to be applied at power-on,
+#to be updated before shutdown
+
+#RF frontend settings
+frontend:
+  rf_power_out_sp: 37.0         #RF power output setpoint at CW, dBm
+  rf_switch: 0                  #0 - receive path, 1 - transmit path
+  atten_0: 31.5                 #first RX attenuator, dB
+  atten_1: 31.5                 #second RX attenuator, dB
+  lna_gain: 20                  #dB
+  pga_gain: 18                  #dB
+  dac_gain: -3                  #dB
+  mix_gain: -9.5                #dB
+  tx_enabled: false             #enable TX path?
+  rx_enabled: true              #enable RX path?
+
+#Hardware settings
+settings:
+  keyboard:
+    backlight: true
+    brightness: 255             #0..255
+    timeout: 10                 #seconds before auto-off
+  display:
+    backlight: true
+    brightness: 255             #0..255
+    timeout: 15                 #seconds before auto-off
+  rf:
+    freq_corr: 0.0              #reference frequency correction, ppm
+    calibrated: false           #set to true if the baseband compensation parameters are valid
+    i_dc: 0.0                   #baseband DC compensation - real component (-1.0..+1.0)
+    q_dc: 0.0                   #baseband DC compensation - imaginary component (-1.0..+1.0)
+    iq_bal: 0.0                 #baseband imbalance correction, a_b, positive for real part
+                                #z_out = (1+a_b)*Re(z_in) + (1-a_b)*Im(z_in)*j
+    iq_crosstalk: 0.0           #I/Q branches crosstalk compensation, a_c
+                                #z_out = Re(z_in)+a_c*Im(z_in) + (Im(z_in)+a_c*Re(z_in))*j
+    dpd_type: "NONE"            #digital predistortion type: NONE, PASSIVE, ACTIVE
+    dpd_0: 1.0                  #digital predistortion parameter A
+    dpd_1: 0.0                  #digital predistortion parameter B
+    dpd_2: 0.0                  #digital predistortion parameter C
+    bias_t: false               #bias circuit enabled?
+
+#Last used channels
+channels:
+  vfo_0:
+    active: true
+    fg: "/usr/share/linht/grc/som_m17_test_rx.py"
+    tx_freq: 433.475e6          #Hz
+    rx_freq: 433.475e6          #Hz
+    bw: 12.5e3                  #Hz
+    extra:
+      mode: "M17"
+      submode: "STREAM"
+      squelch_level: null       #power squelch
+      ctcss_tone: null          #frequency in Hz or null if disabled
+      ctcss_tx: false
+      ctcss_rx: false
+      src: "L1NHT"              #M17 source
+      dst: "@ALL"               #M17 destination
+      can: 0                    #M17 Channel Access Number
+      encrypted: false
+      type: null
+      key: null
+      signed: false
+      key: null
+      meta: "NONE"              #META field contents: NONE, GNSS, TEXT, etc.
+  vfo_1:
+    active: false
+    fg: ""
+    tx_freq: 433.475e6          #Hz
+    rx_freq: 433.475e6          #Hz
+    bw: 12.5e3                  #Hz
+    extra:
+      mode: "FM"
+      submode: ""
+      squelch_level: null       #power squelch
+      ctcss_tone: 127.3         #frequency in Hz or null if disabled
+      ctcss_tx: true
+      ctcss_rx: true
+      src: ""                   #M17 source
+      dst: ""                   #M17 destination
+      can: null                 #M17 Channel Access Number
+      encrypted: false
+      type: null
+      key: null
+      signed: false
+      key: null
+      meta: "NONE"              #META field contents: NONE, GNSS, TEXT, etc.
