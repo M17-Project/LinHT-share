@@ -70,7 +70,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1072, 196.0]
+    coordinate: [1088, 196.0]
     rotation: 0
     state: enabled
 - name: aud_sink
@@ -138,7 +138,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 200.0]
+    coordinate: [560, 200.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -154,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 184.0]
+    coordinate: [192, 184.0]
     rotation: 0
     state: true
 - name: blocks_packed_to_unpacked_xx_0
@@ -208,7 +208,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 88.0]
+    coordinate: [744, 88.0]
+    rotation: 0
+    state: true
+- name: blocks_stream_to_vector_0_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: zmq_len
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 592.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_vector_2
@@ -273,40 +291,51 @@ blocks:
     coordinate: [176, 356.0]
     rotation: 0
     state: enabled
-- name: fir_filter_xxx_0
-  id: fir_filter_xxx
+- name: epy_block_1
+  id: epy_block
   parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nfrom scipy.signal\
+      \ import firwin2, lfilter\n\n#granularity\nN = 1000\n\nclass firwin2_filter(gr.sync_block):\n\
+      \    def __init__(self, length=91, sinc_exp=1.0, sinc_gain=110.0, sinc_ratio=0.125):\n\
+      \        gr.sync_block.__init__(self,\n            name=\"Sinc Compensating\
+      \ Filter\",\n            in_sig=[np.complex64],\n            out_sig=[np.complex64])\n\
+      \        self.length, self.sinc_exp, self.sinc_gain, self.sinc_ratio = length,\
+      \ sinc_exp, sinc_gain, sinc_ratio\n        self.freq = np.linspace(0.0, 1.0,\
+      \ N)\n        self.ampl = np.zeros(N)\n        self.update_taps()\n        self.zi_r\
+      \ = np.zeros(len(self.taps)-1, dtype=np.float32)\n        self.zi_i = np.zeros(len(self.taps)-1,\
+      \ dtype=np.float32)   \n\n    def update_taps(self):\n        for i in range(N-1):\n\
+      \            self.ampl[i] = pow(1 + pow((1 - np.sinc(i/(N-1) * self.sinc_ratio)),\
+      \ self.sinc_exp), self.sinc_gain)\n        self.ampl[N-1] = 0\n        self.taps\
+      \ = firwin2(self.length, self.freq, self.ampl, window='blackmanharris').astype(np.float32)\n\
+      \        \n    #the set_* functions below do not actually make the parameters\
+      \ runtime adjustable :(\n    def set_length(self, length):\n        self.length\
+      \ = length\n        self.update_taps()\n        self.zi_r = np.zeros(len(self.taps)-1,\
+      \ dtype=np.float32)\n        self.zi_i = np.zeros(len(self.taps)-1, dtype=np.float32)\n\
+      \n    def set_sinc_exp(self, sinc_exp):\n        self.sinc_exp = sinc_exp\n\
+      \        self.update_taps()\n\n    def set_sinc_gain(self, sinc_gain):\n   \
+      \     self.sinc_gain = sinc_gain\n        self.update_taps()\n\n    def set_sinc_ratio(self,\
+      \ sinc_ratio):\n        self.sinc_ratio = sinc_ratio\n        self.update_taps()\n\
+      \n    def work(self, input_items, output_items):\n        x = input_items[0]\n\
+      \        y_r, self.zi_r = lfilter(self.taps, 1.0, x.real, zi=self.zi_r)\n  \
+      \      y_i, self.zi_i = lfilter(self.taps, 1.0, x.imag, zi=self.zi_i)\n    \
+      \    output_items[0][:] = y_r + 1j * y_i\n        return len(output_items[0])\n"
     affinity: ''
     alias: ''
     comment: ''
-    decim: '1'
+    length: '91'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samp_delay: '0'
-    taps: '[0.004562185464, -0.003315159603, 0.004494660764, -0.005933215824, 0.007662642297,
-      -0.009730151262, 0.012163462902, -0.015021624093, 0.018344736003, -0.022179571087,
-      0.026587935938, -0.031624350959, 0.037349001966, -0.043825719260, 0.051125585868,
-      -0.059326237377, 0.068504390315, -0.078746186598, 0.090147725138, -0.102813489566,
-      0.116858526852, -0.132408962019, 0.149609118181, -0.168623734209, 0.189641904748,
-      -0.212886091306, 0.238618491973, -0.267152027409, 0.298864858677, -0.334221364400,
-      0.373800820471, -0.418331953197, 0.468744199982, -0.526240588097, 0.592399581386,
-      -0.669319857641, 0.759823522591, -0.867734659884, 0.998215908414, -1.158013367129,
-      1.354923496534, -1.593658456679, 1.856602265650, -2.021519762741, 1.526746272983,
-      1.526746272983, -2.021519762741, 1.856602265650, -1.593658456679, 1.354923496534,
-      -1.158013367129, 0.998215908414, -0.867734659884, 0.759823522591, -0.669319857641,
-      0.592399581386, -0.526240588097, 0.468744199982, -0.418331953197, 0.373800820471,
-      -0.334221364400, 0.298864858677, -0.267152027409, 0.238618491973, -0.212886091306,
-      0.189641904748, -0.168623734209, 0.149609118181, -0.132408962019, 0.116858526852,
-      -0.102813489566, 0.090147725138, -0.078746186598, 0.068504390315, -0.059326237377,
-      0.051125585868, -0.043825719260, 0.037349001966, -0.031624350959, 0.026587935938,
-      -0.022179571087, 0.018344736003, -0.015021624093, 0.012163462902, -0.009730151262,
-      0.007662642297, -0.005933215824, 0.004494660764, -0.003315159603, 0.004562185464]'
-    type: ccf
+    sinc_exp: '1.0'
+    sinc_gain: '110'
+    sinc_ratio: '0.125'
   states:
+    _io_cache: ('Sinc Compensating Filter', 'firwin2_filter', [('length', '91'), ('sinc_exp',
+      '1.0'), ('sinc_gain', '110.0'), ('sinc_ratio', '0.125')], [('0', 'complex',
+      1)], [('0', 'complex', 1)], '', ['length', 'sinc_exp', 'sinc_gain', 'sinc_ratio'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 188.0]
+    coordinate: [352, 172.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_0
@@ -330,7 +359,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 148.0]
+    coordinate: [736, 156.0]
     rotation: 0
     state: enabled
 - name: m17_m17_decoder_0
@@ -373,7 +402,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [904, 172.0]
+    coordinate: [920, 172.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_1
@@ -416,7 +445,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 156.0]
+    coordinate: [1256, 156.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
@@ -429,7 +458,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 196.0]
+    coordinate: [1464, 196.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -480,7 +509,29 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [904, 44.0]
+    coordinate: [920, 44.0]
+    rotation: 0
+    state: true
+- name: zeromq_pub_sink_0_0
+  id: zeromq_pub_sink
+  parameters:
+    address: ipc://*:17006
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    drop_on_hwm: 'True'
+    hwm: '-1'
+    key: ''
+    pass_tags: 'False'
+    timeout: '100'
+    type: float
+    vlen: zmq_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [648, 548.0]
     rotation: 0
     state: true
 
@@ -490,13 +541,15 @@ connections:
 - [audio_source_0, '1', blocks_float_to_complex_0, '1']
 - [blocks_correctiq_0, '0', blocks_stream_to_vector_0, '0']
 - [blocks_correctiq_0, '0', low_pass_filter_0, '0']
-- [blocks_float_to_complex_0, '0', fir_filter_xxx_0, '0']
+- [blocks_float_to_complex_0, '0', epy_block_1, '0']
 - [blocks_packed_to_unpacked_xx_0, '0', blocks_stream_to_vector_2, '0']
 - [blocks_short_to_float_0, '0', rational_resampler_xxx_1, '0']
 - [blocks_stream_to_vector_0, '0', zeromq_pub_sink_0, '0']
+- [blocks_stream_to_vector_0_0, '0', zeromq_pub_sink_0_0, '0']
 - [blocks_stream_to_vector_2, '0', vocoder_codec2_decode_ps_0, '0']
+- [digital_symbol_sync_xx_0, '0', blocks_stream_to_vector_0_0, '0']
 - [digital_symbol_sync_xx_0, '0', m17_m17_decoder_0, '0']
-- [fir_filter_xxx_0, '0', blocks_correctiq_0, '0']
+- [epy_block_1, '0', blocks_correctiq_0, '0']
 - [low_pass_filter_0, '0', rational_resampler_xxx_0, '0']
 - [m17_m17_decoder_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [rational_resampler_xxx_0, '0', analog_quadrature_demod_cf_0, '0']
