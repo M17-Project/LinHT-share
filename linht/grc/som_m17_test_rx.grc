@@ -515,7 +515,7 @@ blocks:
 - name: zeromq_pub_sink_0_0
   id: zeromq_pub_sink
   parameters:
-    address: ipc://*:17006
+    address: ipc:///tmp/m17_symbols
     affinity: ''
     alias: ''
     bind: 'True'
