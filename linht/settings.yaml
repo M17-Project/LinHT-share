@@ -17,6 +17,7 @@ frontend:
 
 #Hardware settings
 settings:
+  timezone: 2.0                 #UTC-referenced timezone offset
   keyboard:
     backlight: true
     brightness: 255             #0..255
