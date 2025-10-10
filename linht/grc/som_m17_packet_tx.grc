@@ -1,0 +1,203 @@
+options:
+  parameters:
+    author: Wojciech SP5WWP
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: M17 Foundation 2025
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: no_gui
+    hier_block_src_path: '.:'
+    id: som_m17_packet_tx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: run
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: M17 packet transmit
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 4.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '48000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 4.0]
+    rotation: 0
+    state: enabled
+- name: analog_frequency_modulator_fc_0
+  id: analog_frequency_modulator_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    sensitivity: (2.0*math.pi*800.0)/samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 316.0]
+    rotation: 0
+    state: enabled
+- name: audio_sink_0
+  id: audio_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: bsb_sink
+    num_inputs: '2'
+    ok_to_block: 'True'
+    samp_rate: '500000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [936, 304.0]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_float_0
+  id: blocks_complex_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [776, 304.0]
+    rotation: 0
+    state: true
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: /tmp/m17_packet_symbols
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 284.0]
+    rotation: 0
+    state: enabled
+- name: bsb_sink
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Baseband sink  device
+    short_id: b
+    type: str
+    value: hw:SX1255,1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 4.0]
+    rotation: 0
+    state: true
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 132.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '48'
+    fbw: '0'
+    interp: '500'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 292.0]
+    rotation: 0
+    state: enabled
+- name: root_raised_cosine_filter_0
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '0.5'
+    comment: ''
+    decim: '1'
+    gain: '10'
+    interp: '10'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: '81'
+    samp_rate: '10'
+    sym_rate: '1'
+    type: interp_fir_filter_fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 276.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_frequency_modulator_fc_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_complex_to_float_0, '0', audio_sink_0, '0']
+- [blocks_complex_to_float_0, '1', audio_sink_0, '1']
+- [blocks_file_source_0, '0', root_raised_cosine_filter_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_complex_to_float_0, '0']
+- [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
