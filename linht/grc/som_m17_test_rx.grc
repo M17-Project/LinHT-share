@@ -219,7 +219,7 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: zmq_len
+    num_items: int(0.01*4800)
     type: float
     vlen: '1'
   states:
@@ -505,7 +505,7 @@ blocks:
 - name: zeromq_pub_sink_0_0
   id: zeromq_pub_sink
   parameters:
-    address: ipc:///tmp/m17_symbols
+    address: ipc:///tmp/m17_symbols_rx
     affinity: ''
     alias: ''
     bind: 'True'
@@ -516,7 +516,7 @@ blocks:
     pass_tags: 'False'
     timeout: '100'
     type: float
-    vlen: zmq_len
+    vlen: int(0.01*4800)
   states:
     bus_sink: false
     bus_source: false

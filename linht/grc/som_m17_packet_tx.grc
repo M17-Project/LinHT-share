@@ -45,6 +45,18 @@ blocks:
     coordinate: [200, 4.0]
     rotation: 0
     state: enabled
+- name: zmq_len
+  id: variable
+  parameters:
+    comment: ''
+    value: int(0.04*4800)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 4.0]
+    rotation: 0
+    state: enabled
 - name: analog_frequency_modulator_fc_0
   id: analog_frequency_modulator_fc
   parameters:
@@ -58,7 +70,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 316.0]
+    coordinate: [624, 316.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -75,7 +87,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [936, 304.0]
+    coordinate: [1120, 304.0]
     rotation: 0
     state: true
 - name: blocks_complex_to_float_0
@@ -91,7 +103,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 304.0]
+    coordinate: [960, 304.0]
     rotation: 0
     state: true
 - name: blocks_file_source_0
@@ -114,6 +126,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [16, 284.0]
+    rotation: 0
+    state: disabled
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: zmq_len
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 440.0]
     rotation: 0
     state: enabled
 - name: bsb_sink
@@ -163,7 +193,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 292.0]
+    coordinate: [792, 292.0]
     rotation: 0
     state: enabled
 - name: root_raised_cosine_filter_0
@@ -186,7 +216,30 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 276.0]
+    coordinate: [416, 276.0]
+    rotation: 0
+    state: enabled
+- name: zeromq_sub_source_0
+  id: zeromq_sub_source
+  parameters:
+    address: ipc:///tmp/m17_symbols_tx
+    affinity: ''
+    alias: ''
+    bind: 'False'
+    comment: ''
+    hwm: '-1'
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pass_tags: 'False'
+    timeout: '100'
+    type: float
+    vlen: zmq_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 396.0]
     rotation: 0
     state: enabled
 
@@ -195,8 +248,10 @@ connections:
 - [blocks_complex_to_float_0, '0', audio_sink_0, '0']
 - [blocks_complex_to_float_0, '1', audio_sink_0, '1']
 - [blocks_file_source_0, '0', root_raised_cosine_filter_0, '0']
+- [blocks_vector_to_stream_0, '0', root_raised_cosine_filter_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_complex_to_float_0, '0']
 - [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0, '0']
+- [zeromq_sub_source_0, '0', blocks_vector_to_stream_0, '0']
 
 metadata:
   file_format: 1
