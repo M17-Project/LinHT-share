@@ -225,7 +225,7 @@ blocks:
     address: ipc:///tmp/m17_symbols_tx
     affinity: ''
     alias: ''
-    bind: 'False'
+    bind: 'True'
     comment: ''
     hwm: '-1'
     key: ''
