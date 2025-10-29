@@ -403,6 +403,27 @@ blocks:
     coordinate: [872, 560.0]
     rotation: 0
     state: disabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: time
+    maximum: '0.04'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '8000'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 948.0]
+    rotation: 0
+    state: disabled
 - name: blocks_unpacked_to_packed_xx_0
   id: blocks_unpacked_to_packed_xx
   parameters:
@@ -410,7 +431,7 @@ blocks:
     alias: ''
     bits_per_chunk: '1'
     comment: ''
-    endianness: gr.GR_LSB_FIRST
+    endianness: gr.GR_MSB_FIRST
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
@@ -440,6 +461,24 @@ blocks:
     coordinate: [888, 864.0]
     rotation: 0
     state: enabled
+- name: blocks_wavfile_source_0
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    file: /root/output.wav
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nchan: '1'
+    repeat: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 956.0]
+    rotation: 0
+    state: disabled
 - name: digital_symbol_sync_xx_0
   id: digital_symbol_sync_xx
   parameters:
@@ -565,7 +604,7 @@ blocks:
     coordinate: [224, 820.0]
     rotation: 0
     state: enabled
-- name: m17_m17_coder_0_0
+- name: m17_m17_coder_0
   id: m17_m17_coder
   parameters:
     aes_subtype: '0'
@@ -579,21 +618,21 @@ blocks:
     encr_type: '0'
     key: ''
     maxoutbuf: '0'
-    meta: '"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"'
+    meta: ''
     minoutbuf: '0'
     mode: '1'
     priv_key: ''
     seed: ''
     signed_str: 'False'
     src_id: L1NHT
-    type: '1'
+    type: '2'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1256, 772.0]
+    coordinate: [1248, 772.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: m17_m17_decoder_0
   id: m17_m17_decoder
   parameters:
@@ -886,14 +925,16 @@ connections:
 - [blocks_stream_to_vector_0_0, '0', zeromq_pub_sink_0_0, '0']
 - [blocks_stream_to_vector_1, '0', zeromq_pub_sink_1, '0']
 - [blocks_stream_to_vector_2, '0', vocoder_codec2_decode_ps_0, '0']
-- [blocks_unpacked_to_packed_xx_0, '0', m17_m17_coder_0_0, '0']
+- [blocks_throttle2_0, '0', blocks_float_to_short_0, '0']
+- [blocks_unpacked_to_packed_xx_0, '0', m17_m17_coder_0, '0']
 - [blocks_vector_to_stream_0, '0', blocks_unpacked_to_packed_xx_0, '0']
+- [blocks_wavfile_source_0, '0', blocks_throttle2_0, '0']
 - [digital_symbol_sync_xx_0, '0', blocks_stream_to_vector_0_0, '0']
 - [digital_symbol_sync_xx_0, '0', m17_m17_decoder_0, '0']
 - [fir_filter_xxx_0, '0', blocks_correctiq_0, '0']
 - [low_pass_filter_0, '0', rational_resampler_xxx_0, '0']
 - [low_pass_filter_1, '0', blocks_keep_one_in_n_0, '0']
-- [m17_m17_coder_0_0, '0', root_raised_cosine_filter_1_0, '0']
+- [m17_m17_coder_0, '0', root_raised_cosine_filter_1_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [rational_resampler_xxx_0, '0', analog_quadrature_demod_cf_0, '0']
@@ -905,7 +946,7 @@ connections:
 - [virtual_source_0, '0', digital_symbol_sync_xx_0, '0']
 - [vocoder_codec2_decode_ps_0, '0', blocks_short_to_float_0, '0']
 - [vocoder_codec2_encode_sp_0, '0', blocks_vector_to_stream_0, '0']
-- [zeromq_sub_msg_source_0, out, m17_m17_coder_0_0, transmission_control]
+- [zeromq_sub_msg_source_0, out, m17_m17_coder_0, transmission_control]
 
 metadata:
   file_format: 1
