@@ -61,9 +61,9 @@ channels:
       can: 0                    #M17 Channel Access Number
       encrypted: false
       type: null
-      key: null
+      encr_key: null
       signed: false
-      key: null
+      sign_key: null
       meta: "NONE"              #META field contents: NONE, GNSS, TEXT, etc.
   vfo_1:
     active: false
@@ -83,7 +83,7 @@ channels:
       can: null                 #M17 Channel Access Number
       encrypted: false
       type: null
-      key: null
+      encr_key: null
       signed: false
-      key: null
+      sign_key: null
       meta: "NONE"              #META field contents: NONE, GNSS, TEXT, etc.
