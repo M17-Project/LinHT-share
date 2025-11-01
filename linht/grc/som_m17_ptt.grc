@@ -458,6 +458,23 @@ blocks:
     coordinate: [840, 864.0]
     rotation: 0
     state: enabled
+- name: can
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M17 CAN
+    short_id: C
+    type: intx
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1032, 4.0]
+    rotation: 0
+    state: enabled
 - name: dc_offs
   id: parameter
   parameters:
@@ -516,7 +533,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 4.0]
+    coordinate: [888, 4.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0
@@ -623,7 +640,7 @@ blocks:
     aes_subtype: '0'
     affinity: ''
     alias: ''
-    can: '0'
+    can: can
     comment: ''
     debug: 'False'
     dst_id: dst
@@ -637,7 +654,7 @@ blocks:
     priv_key: ''
     seed: ''
     signed_str: 'False'
-    src_id: L1NHT
+    src_id: src
     type: '2'
   states:
     bus_sink: false
@@ -773,6 +790,23 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1456, 836.0]
+    rotation: 0
+    state: enabled
+- name: src
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M17 SRC address
+    short_id: S
+    type: str
+    value: L1NHT
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 4.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
