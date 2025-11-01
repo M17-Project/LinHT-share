@@ -45,18 +45,6 @@ blocks:
     coordinate: [208, 12.0]
     rotation: 0
     state: enabled
-- name: zmq_addr
-  id: variable
-  parameters:
-    comment: ''
-    value: '"10.17.17.1"'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [568, 12.0]
-    rotation: 0
-    state: enabled
 - name: zmq_len
   id: variable
   parameters:
@@ -83,9 +71,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 412.0]
+    coordinate: [240, 332.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: audio_sink_0
   id: audio_sink
   parameters:
@@ -100,7 +88,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 296.0]
+    coordinate: [584, 256.0]
     rotation: 0
     state: true
 - name: blocks_complex_to_float_0
@@ -116,7 +104,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 296.0]
+    coordinate: [424, 256.0]
     rotation: 0
     state: true
 - name: blocks_vector_to_stream_0
@@ -134,9 +122,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 312.0]
+    coordinate: [240, 272.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: bsb_sink
   id: parameter
   parameters:
@@ -157,10 +145,10 @@ blocks:
 - name: zeromq_sub_source_0
   id: zeromq_sub_source
   parameters:
-    address: '"tcp://"+zmq_addr+":17001"'
+    address: '"tcp://*:17001"'
     affinity: ''
     alias: ''
-    bind: 'False'
+    bind: 'True'
     comment: ''
     hwm: '-1'
     key: ''
@@ -174,9 +162,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 268.0]
+    coordinate: [40, 228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 
 connections:
 - [analog_const_source_x_0, '0', blocks_complex_to_float_0, '0']
