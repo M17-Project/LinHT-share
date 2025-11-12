@@ -130,7 +130,7 @@ blocks:
     label: ZMQ packet length
     short_id: z
     type: intx
-    value: '1024'
+    value: '2048'
   states:
     bus_sink: false
     bus_source: false
