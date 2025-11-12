@@ -104,7 +104,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 340.0]
+    coordinate: [1456, 340.0]
     rotation: 0
     state: enabled
 - name: audio_source_0
@@ -173,7 +173,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 340.0]
+    coordinate: [632, 340.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -190,7 +190,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1144, 348.0]
+    coordinate: [1152, 348.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0
@@ -244,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [800, 352.0]
+    coordinate: [808, 352.0]
     rotation: 0
     state: enabled
 - name: bsb_src
@@ -349,7 +349,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 156.0]
+    coordinate: [728, 148.0]
     rotation: 0
     state: enabled
 - name: m17_m17_decoder_0
@@ -367,12 +367,13 @@ blocks:
     minoutbuf: '0'
     seed: ''
     signed_str: 'False'
-    threshold: '2.0'
+    sw_threshold: '2.0'
+    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 308.0]
+    coordinate: [456, 300.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0
@@ -412,7 +413,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1280, 324.0]
+    coordinate: [1288, 324.0]
     rotation: 0
     state: enabled
 - name: root_raised_cosine_filter_0
@@ -477,7 +478,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 348.0]
+    coordinate: [960, 348.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -550,4 +551,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.12.0
+  grc_version: 3.10.7.0
