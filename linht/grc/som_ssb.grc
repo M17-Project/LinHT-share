@@ -19,7 +19,7 @@ options:
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
+    run_options: run
     sizing_mode: fixed
     thread_safe_setters: ''
     title: LinHT SSB transceiver
@@ -51,7 +51,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: Baseband output
-    device_name: hw:sx1255
+    device_name: hw:SX1255,1
     num_inputs: '2'
     ok_to_block: 'True'
     samp_rate: samp_rate
@@ -59,7 +59,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1104, 320.0]
+    coordinate: [1248, 360.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0_0_0
@@ -78,7 +78,7 @@ blocks:
     bus_structure: null
     coordinate: [1080, 516.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: audio_source_0
   id: audio_source
   parameters:
@@ -104,7 +104,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: Baseband input
-    device_name: hw:sx1255
+    device_name: hw:SX1255
     maxoutbuf: '0'
     minoutbuf: '0'
     num_outputs: '2'
@@ -116,7 +116,7 @@ blocks:
     bus_structure: null
     coordinate: [16, 528.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: band_pass_filter_0
   id: band_pass_filter
   parameters:
@@ -125,15 +125,15 @@ blocks:
     beta: '6.76'
     comment: ''
     decim: '1'
-    gain: '1'
-    high_cutoff_freq: '3000'
+    gain: inp_gain
+    high_cutoff_freq: '3700'
     interp: '1'
-    low_cutoff_freq: '300'
+    low_cutoff_freq: '100'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: 8e3
     type: fir_filter_fff
-    width: '300'
+    width: '100'
     win: window.WIN_HAMMING
   states:
     bus_sink: false
@@ -151,9 +151,9 @@ blocks:
     comment: USB/LSB switch
     decim: '1'
     gain: '1'
-    high_cutoff_freq: 3000-(1-ssb)*3300
+    high_cutoff_freq: 3700-(1-ssb)*3800
     interp: '1'
-    low_cutoff_freq: 300-(1-ssb)*3300
+    low_cutoff_freq: 100-(1-ssb)*3800
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: '8000'
@@ -166,14 +166,14 @@ blocks:
     bus_structure: null
     coordinate: [696, 492.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_add_const_vxx_0
   id: blocks_add_const_vxx
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    const: iqdc
+    const: iq_dc
     maxoutbuf: '0'
     minoutbuf: '0'
     type: complex
@@ -182,7 +182,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 236.0]
+    coordinate: [1144, 236.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0
@@ -198,7 +198,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 320.0]
+    coordinate: [1088, 360.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_1
@@ -232,7 +232,7 @@ blocks:
     bus_structure: null
     coordinate: [864, 528.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
@@ -264,14 +264,14 @@ blocks:
     bus_structure: null
     coordinate: [200, 528.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    const: 2*ssb-1
+    const: (2*ssb-1) * (1+iq_bal)
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -280,7 +280,43 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 220.0]
+    coordinate: [696, 188.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: 1-iq_bal
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 276.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_1
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: np.cos(iq_angle/180*np.pi) + np.sin(iq_angle/180*np.pi)*1j
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 236.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -299,7 +335,7 @@ blocks:
     bus_structure: null
     coordinate: [1080, 600.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: hilbert_fc_0
   id: hilbert_fc
   parameters:
@@ -309,7 +345,7 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_taps: '201'
+    num_taps: '101'
     win: window.WIN_HAMMING
   states:
     bus_sink: false
@@ -318,7 +354,71 @@ blocks:
     coordinate: [400, 236.0]
     rotation: 0
     state: enabled
-- name: iqdc
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 12.0]
+    rotation: 0
+    state: enabled
+- name: inp_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Input gain
+    short_id: g
+    type: eng_float
+    value: '0.1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 12.0]
+    rotation: 0
+    state: enabled
+- name: iq_angle
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: IQ angle (degrees)
+    short_id: t
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 12.0]
+    rotation: 0
+    state: enabled
+- name: iq_bal
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: IQ balance
+    short_id: b
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 12.0]
+    rotation: 0
+    state: enabled
+- name: iq_dc
   id: parameter
   parameters:
     alias: ''
@@ -332,7 +432,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12.0]
+    coordinate: [672, 12.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_0
@@ -344,7 +444,7 @@ blocks:
     comment: 'Channelizer
 
       (pass both sidebands)'
-    cutoff_freq: '3000'
+    cutoff_freq: '3700'
     decim: '1'
     gain: '1'
     interp: '1'
@@ -360,7 +460,7 @@ blocks:
     bus_structure: null
     coordinate: [360, 500.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: rational_resampler_xxx_0
   id: rational_resampler_xxx
   parameters:
@@ -378,7 +478,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 308.0]
+    coordinate: [920, 348.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_1
@@ -400,7 +500,7 @@ blocks:
     bus_structure: null
     coordinate: [528, 516.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: ssb
   id: parameter
   parameters:
@@ -432,7 +532,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1120, 236.0]
+    coordinate: [1264, 236.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -445,7 +545,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 332.0]
+    coordinate: [752, 372.0]
     rotation: 0
     state: enabled
 
@@ -459,12 +559,14 @@ connections:
 - [blocks_complex_to_float_0, '0', audio_sink_0_0, '0']
 - [blocks_complex_to_float_0, '1', audio_sink_0_0, '1']
 - [blocks_complex_to_float_1, '0', blocks_multiply_const_vxx_0, '0']
-- [blocks_complex_to_float_1, '1', blocks_float_to_complex_0, '1']
+- [blocks_complex_to_float_1, '1', blocks_multiply_const_vxx_0_0, '0']
 - [blocks_complex_to_float_1_0, '0', audio_sink_0_0_0, '0']
 - [blocks_complex_to_float_1_0, '1', blocks_null_sink_0, '0']
-- [blocks_float_to_complex_0, '0', blocks_add_const_vxx_0, '0']
+- [blocks_float_to_complex_0, '0', blocks_multiply_const_vxx_1, '0']
 - [blocks_float_to_complex_1, '0', low_pass_filter_0, '0']
 - [blocks_multiply_const_vxx_0, '0', blocks_float_to_complex_0, '0']
+- [blocks_multiply_const_vxx_0_0, '0', blocks_float_to_complex_0, '1']
+- [blocks_multiply_const_vxx_1, '0', blocks_add_const_vxx_0, '0']
 - [hilbert_fc_0, '0', blocks_complex_to_float_1, '0']
 - [low_pass_filter_0, '0', rational_resampler_xxx_1, '0']
 - [rational_resampler_xxx_0, '0', blocks_complex_to_float_0, '0']
