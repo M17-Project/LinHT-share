@@ -33,8 +33,8 @@ settings:
     q_dc: 0.0                   #baseband DC compensation - imaginary component (-1.0..+1.0)
     iq_bal: 0.0                 #baseband imbalance correction, a_b, positive for real part
                                 #z_out = (1+a_b)*Re(z_in) + (1-a_b)*Im(z_in)*j
-    iq_crosstalk: 0.0           #I/Q branches crosstalk compensation, a_c
-                                #z_out = Re(z_in)+a_c*Im(z_in) + (Im(z_in)+a_c*Re(z_in))*j
+    iq_psi: 0.0                 #I/Q rotation angle, psi (degrees)
+                                #z_out = z_in * (cos(psi/180*pi) + j*sin(psi/180*pi))
     dpd_type: "NONE"            #digital predistortion type: NONE, PASSIVE, ACTIVE
     dpd_0: 1.0                  #digital predistortion parameter A
     dpd_1: 0.0                  #digital predistortion parameter B
