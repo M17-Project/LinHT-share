@@ -4,6 +4,7 @@
 
 #RF frontend settings
 frontend:
+  rf_sample_rate: 500           #SX1255 sample rate, kHz
   rf_power_out_sp: 37.0         #RF power output setpoint at CW, dBm
   rf_switch: 0                  #0 - receive path, 1 - transmit path
   atten_0: 31.5                 #first RX attenuator, dB
