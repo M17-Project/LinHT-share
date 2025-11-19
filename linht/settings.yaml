@@ -46,7 +46,7 @@ settings:
 channels:
   vfo_0:
     active: true
-    fg: "/usr/share/linht/grc/som_m17_test_rx.py"
+    fg: "/usr/share/linht/grc/som_m17_ptt.py"
     tx_freq: 433475000          #Hz
     rx_freq: 433475000          #Hz
     bw: 12.5e3                  #Hz
