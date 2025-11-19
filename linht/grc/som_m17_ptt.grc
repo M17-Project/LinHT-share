@@ -778,14 +778,14 @@ blocks:
     comment: ''
     debug_ctrl: 'False'
     debug_data: 'True'
+    sw_threshold: '2.0'
+    vt_threshold: '30.0'
     encr_type: '0'
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
     seed: ''
     signed_str: 'False'
-    sw_threshold: '2.0'
-    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
