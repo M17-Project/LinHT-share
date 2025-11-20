@@ -1,6 +1,6 @@
 options:
   parameters:
-    author: Wojciech SP5WWP / Andreas OE3ANC
+    author: Wojciech SP5WWP, Andreas OE3ANC
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
@@ -22,7 +22,7 @@ options:
     run_options: run
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Sample M17 receiver with PTT via ZMQ
+    title: Sample M17 transceiver with PTT via ZMQ
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -713,7 +713,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 236.0]
+    coordinate: [1160, 228.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_1
@@ -737,7 +737,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 708.0]
+    coordinate: [224, 700.0]
     rotation: 0
     state: enabled
 - name: m17_m17_coder_0
@@ -752,6 +752,7 @@ blocks:
     dst_id: dst
     encr_subtype: '0'
     encr_type: '0'
+    eot_cnt: '1'
     key: ''
     maxoutbuf: '0'
     meta: ''
@@ -766,7 +767,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1200, 664.0]
+    coordinate: [1208, 652.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -778,14 +779,14 @@ blocks:
     comment: ''
     debug_ctrl: 'False'
     debug_data: 'True'
-    sw_threshold: '2.0'
-    vt_threshold: '30.0'
     encr_type: '0'
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
     seed: ''
     signed_str: 'False'
+    sw_threshold: '2.0'
+    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
@@ -1156,4 +1157,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.12.0
+  grc_version: 3.10.7.0
