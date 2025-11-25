@@ -50,6 +50,7 @@ channels:
     tx_freq: 433475000          #Hz
     rx_freq: 433475000          #Hz
     bw: 12.5e3                  #Hz
+    tx_sust: 120                #transmission sustain time in ms, 0 if usused
     extra:
       mode: "M17"
       submode: "STREAM"
@@ -72,6 +73,7 @@ channels:
     tx_freq: 433475000          #Hz
     rx_freq: 433475000          #Hz
     bw: 12.5e3                  #Hz
+    tx_sust: 0                  #transmission sustain time in ms, 0 if usused
     extra:
       mode: "FM"
       submode: ''
