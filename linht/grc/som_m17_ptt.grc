@@ -818,7 +818,7 @@ blocks:
     comment: ''
     decim: '48'
     fbw: '0'
-    interp: '500'
+    interp: '125'
     maxoutbuf: '0'
     minoutbuf: '0'
     taps: '[]'
