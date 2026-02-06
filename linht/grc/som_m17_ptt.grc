@@ -155,7 +155,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1520, 460.0]
+    coordinate: [1472, 464.0]
     rotation: 0
     state: enabled
 - name: audio_source_1
@@ -174,7 +174,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 740.0]
+    coordinate: [8, 744.0]
     rotation: 0
     state: enabled
 - name: blocks_add_const_vxx_0
@@ -294,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 748.0]
+    coordinate: [512, 752.0]
     rotation: 0
     state: enabled
 - name: blocks_int_to_float_0
@@ -365,7 +365,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 752.0]
+    coordinate: [392, 760.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0_0
@@ -419,7 +419,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 460.0]
+    coordinate: [696, 464.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -436,7 +436,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1216, 468.0]
+    coordinate: [1192, 472.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0
@@ -508,7 +508,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 472.0]
+    coordinate: [872, 480.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_3
@@ -563,7 +563,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [840, 752.0]
+    coordinate: [840, 760.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_to_stream_1
@@ -711,7 +711,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 708.0]
+    coordinate: [224, 712.0]
     rotation: 0
     state: enabled
 - name: m17_m17_coder_0
@@ -731,7 +731,6 @@ blocks:
     maxoutbuf: '0'
     meta: ''
     minoutbuf: '0'
-    mode: '1'
     priv_key: ''
     seed: ''
     signed_str: 'False'
@@ -847,7 +846,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1352, 444.0]
+    coordinate: [1320, 448.0]
     rotation: 0
     state: enabled
 - name: root_raised_cosine_filter_0
@@ -952,7 +951,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 468.0]
+    coordinate: [1016, 472.0]
     rotation: 0
     state: enabled
 - name: vocoder_codec2_encode_sp_0
@@ -968,7 +967,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 748.0]
+    coordinate: [648, 752.0]
+    rotation: 0
+    state: enabled
+- name: zeromq_pub_msg_sink_0
+  id: zeromq_pub_msg_sink
+  parameters:
+    address: ipc:///tmp/fg_aux_data_out
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 536.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -1137,6 +1152,7 @@ connections:
 - [m17_m17_coder_0, '0', root_raised_cosine_filter_1_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_packed_to_unpacked_xx_0, '0']
+- [m17_m17_decoder_0, fields, zeromq_pub_msg_sink_0, in]
 - [pfb_decimator_ccf_0, '0', iir_filter_xxx_0, '0']
 - [rational_resampler_xxx_1, '0', root_raised_cosine_filter_0, '0']
 - [rational_resampler_xxx_1_0, '0', blocks_complex_to_float_0_0, '0']
