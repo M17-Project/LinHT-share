@@ -1001,10 +1001,10 @@ blocks:
 - name: zeromq_sub_msg_source_0
   id: zeromq_sub_msg_source
   parameters:
-    address: ipc:///tmp/ptt_msg
+    address: ipc:///tmp/fg_aux_data_in
     affinity: ''
     alias: ''
-    bind: 'False'
+    bind: 'True'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
