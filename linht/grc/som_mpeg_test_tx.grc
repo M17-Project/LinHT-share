@@ -5,7 +5,7 @@ options:
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
-    copyright: M17 Foundation 2025
+    copyright: M17 Foundation 2026
     description: ''
     gen_cmake: 'On'
     gen_linking: dynamic
@@ -67,7 +67,7 @@ blocks:
     bus_structure: null
     coordinate: [696, 228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: samp_rate
   id: variable
   parameters:
@@ -90,6 +90,25 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [200, 76.0]
+    rotation: 0
+    state: enabled
+- name: analog_random_uniform_source_x_0
+  id: analog_random_uniform_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maximum: 255+1
+    maxoutbuf: '0'
+    minimum: '0'
+    minoutbuf: '0'
+    seed: '73'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 380.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -126,7 +145,7 @@ blocks:
     bus_structure: null
     coordinate: [1512, 396.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_complex_to_float_0
   id: blocks_complex_to_float
   parameters:
@@ -143,7 +162,7 @@ blocks:
     coordinate: [1632, 384.0]
     rotation: 0
     state: enabled
-- name: blocks_file_source_0
+- name: blocks_file_source_0_0
   id: blocks_file_source
   parameters:
     affinity: ''
@@ -162,9 +181,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 380.0]
+    coordinate: [8, 476.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_repack_bits_bb_0
   id: blocks_repack_bits_bb
   parameters:
@@ -184,48 +203,49 @@ blocks:
     bus_structure: null
     coordinate: [544, 388.0]
     rotation: 0
-    state: disabled
-- name: blocks_stream_mux_0
+    state: enabled
+- name: blocks_stream_mux_0_0
   id: blocks_stream_mux
   parameters:
     affinity: ''
     alias: ''
-    comment: ''
-    lengths: (16, 188)
+    comment: '1 "sync" frame
+
+      200 MPEG-TS frames'
+    lengths: (4, 184, 200*188)
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_inputs: '2'
+    num_inputs: '3'
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 384.0]
+    coordinate: [376, 368.0]
     rotation: 0
-    state: disabled
-- name: blocks_vector_source_x_0
+    state: enabled
+- name: blocks_vector_source_x_1
   id: blocks_vector_source_x
   parameters:
     affinity: ''
     alias: ''
-    comment: ''
+    comment: MPEG-TS null packet header
     maxoutbuf: '0'
     minoutbuf: '0'
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: (0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF,
-      0xDE, 0xAD, 0xBE, 0xEF)
-    vlen: '16'
+    vector: (0x47, 0x1F, 0xFF, 0x10)
+    vlen: '4'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 284.0]
+    coordinate: [8, 260.0]
     rotation: 0
-    state: disabled
-- name: blocks_vector_to_stream_0
+    state: enabled
+- name: blocks_vector_to_stream_0_0
   id: blocks_vector_to_stream
   parameters:
     affinity: ''
@@ -233,16 +253,16 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: '16'
+    num_items: '4'
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 312.0]
+    coordinate: [184, 288.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_vector_to_stream_1
   id: blocks_vector_to_stream
   parameters:
@@ -260,7 +280,7 @@ blocks:
     bus_structure: null
     coordinate: [1440, 264.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: bsb_sink
   id: parameter
   parameters:
@@ -310,7 +330,7 @@ blocks:
     bus_structure: null
     coordinate: [728, 396.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: fir_filter_xxx_0
   id: fir_filter_xxx
   parameters:
@@ -346,7 +366,7 @@ blocks:
     bus_structure: null
     coordinate: [1312, 388.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: import_0
   id: import
   parameters:
@@ -379,7 +399,7 @@ blocks:
     bus_structure: null
     coordinate: [1144, 372.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: root_raised_cosine_filter_1
   id: root_raised_cosine_filter
   parameters:
@@ -402,7 +422,7 @@ blocks:
     bus_structure: null
     coordinate: [936, 356.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: zeromq_sub_source_0
   id: zeromq_sub_source
   parameters:
@@ -425,17 +445,18 @@ blocks:
     bus_structure: null
     coordinate: [1240, 220.0]
     rotation: 0
-    state: enabled
+    state: disabled
 
 connections:
+- [analog_random_uniform_source_x_0, '0', blocks_stream_mux_0_0, '1']
 - [blocks_add_const_vxx_0, '0', blocks_complex_to_float_0, '0']
 - [blocks_complex_to_float_0, '0', audio_sink_0, '0']
 - [blocks_complex_to_float_0, '1', audio_sink_0, '1']
-- [blocks_file_source_0, '0', blocks_stream_mux_0, '1']
+- [blocks_file_source_0_0, '0', blocks_stream_mux_0_0, '2']
 - [blocks_repack_bits_bb_0, '0', digital_constellation_encoder_bc_0, '0']
-- [blocks_stream_mux_0, '0', blocks_repack_bits_bb_0, '0']
-- [blocks_vector_source_x_0, '0', blocks_vector_to_stream_0, '0']
-- [blocks_vector_to_stream_0, '0', blocks_stream_mux_0, '0']
+- [blocks_stream_mux_0_0, '0', blocks_repack_bits_bb_0, '0']
+- [blocks_vector_source_x_1, '0', blocks_vector_to_stream_0_0, '0']
+- [blocks_vector_to_stream_0_0, '0', blocks_stream_mux_0_0, '0']
 - [blocks_vector_to_stream_1, '0', blocks_complex_to_float_0, '0']
 - [digital_constellation_encoder_bc_0, '0', root_raised_cosine_filter_1, '0']
 - [fir_filter_xxx_0, '0', blocks_add_const_vxx_0, '0']
