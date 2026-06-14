@@ -133,7 +133,7 @@ blocks:
     label: Audio device
     short_id: a
     type: str
-    value: hw:wm8960audio
+    value: hw:AUDIO
   states:
     bus_sink: false
     bus_source: false
